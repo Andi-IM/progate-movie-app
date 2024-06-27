@@ -1,19 +1,22 @@
-import {StyleSheet, View, Text, Button} from "react-native";
 import React from "react";
+import {StyleSheet, View, Text, Button} from "react-native";
+import {API_URL, API_ACCESS_TOKEN} from "@env";
 
 export default function MovieDetail({navigation}: any) {
     const fetchData = (): void => {
-        const ACCESS_TOKEN: string = 'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMjVmZjkzODJiZjFiZmY2MWMyMjFhMmVlMGMzMTY2MCIsIm5iZiI6MTcxOTQ3MTExMS41ODc1ODYsInN1YiI6IjYxMjc2M2VhZThhM2UxMDA2MjNhM2Y1MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.BQ0n8W3kWEBTmOSkD_bbi5ufl2TeV4Til0UMtLCuAnI';
-        const url: string = 'https://api.themoviedb.org/3/movie/popular?language=en-US&page=1'
+        if (API_ACCESS_TOKEN == null || API_URL == null) {
+            throw new Error('ENV not found')
+        }
+
         const options: RequestInit = {
             method: 'GET',
             headers: {
                 accept: 'application/json',
-                authorization: `Bearer ${ACCESS_TOKEN}`,
+                authorization: `Bearer ${API_ACCESS_TOKEN}`,
             },
         }
 
-        fetch(url, options)
+        fetch(API_URL, options)
             .then(async (response: Response) => await response.json())
             .then((response: string): void => {
                 console.log(response)
